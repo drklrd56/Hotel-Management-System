@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" id="body">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700" rel="stylesheet">
+    <link rel="shortcut icon"  href="img/icons/door.png">
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
+    <title>Hotel</title>
+</head>
+<body >
+    <div class="container">
+        <div class="header">
+            <header class="header__main">
+                <h2 class="logo-box">
+                    <img src="img/icons/hotel.svg" alt="Logo" class="header__logo">
+                    <span class= "header-img-heading-1">Ivy</span><span style="font-size:2.1rem;">Hotel</span>
+                </h2>
+                <a class="btn header__btn" id='logout' style="display: none;">
+                    <img src="css/img/logout.png"  class="logout-button" alt="logout-button"><span class="logout-text">Logout</span></a>
+            </header>
+        </div>
+        <div class="main-display" id="primary" style="display: none;">
+            <div class="main-display__heading">
+                <div>
+                    <div class="main-display__text-main" id="HotelName">Ivy Hotel</div>
+                </div>
+            </div>
+            <div class="main-display__content" style="display: none;">
+                <div class="Request">
+                    <div class="box__headings" >
+                        <div class="heading">Available Rooms</div>
+                    </div>
+                    <ul class="room__list">
+                    </ul>
+                </div>
+                <div class="Details">
+                    <div class="details__wall">
+
+                        <div class="details__wall-heading">
+                            <h2 id="details-msg">Click on any Rooms to view details.</h2>
+                        </div>
+                        <img class="details__wall-img" src="css/img/main.svg">
+                    </div> 
+                    <div class="details-item" style="display: none;">
+                        <div id = "roomImageBox"> 
+                            
+                        </div>
+                        <div class="container-info">
+                            <div class="item-info row">
+                                <div class="item-info__head col-1-of-2">Room Number</div>
+                                <div id = "RoomNumber" class="item-info__data col-1-of-2"></div>
+                            </div>
+                            <div class="item-info row">
+                                <div class="item-info__head col-1-of-2">Room type</div>
+                                <div id = "RoomType" class="item-info__data col-1-of-2"></div>
+                            </div>
+                            <div class="item-info row">
+                                <div class="item-info__head col-1-of-2">Floor</div>
+                                <div id = "FloorNumber" class="item-info__data col-1-of-2"></div>
+                            </div>
+                            <div class="item-info row">
+                                <div class="item-info__head col-1-of-2">Bath Count</div>
+                                <div id = "BathCount" class="item-info__data col-1-of-2"></div>
+                            </div>
+                            <div class="item-info row">
+                                <div class="item-info__head col-1-of-2">Bed Count</div>
+                                <div id = "BedCount" class="item-info__data col-1-of-2"></div>
+                            </div>
+                            <div id = "button-container" style="display: flex;flex-direction: column;align-items: center;">
+                                <div class="btn btn-btm btn-btm-submit accept-button" onclick="signup()">
+                                    Book Room 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Accepted">
+                    <div class="box__headings" >
+                        <div class="heading">Booked Rooms</div>
+                    </div>
+                    <ul class="book__list">
+                    </ul>
+                </div>
+            </div>  
+        </div>
+        <div class="main-forms" id="secondary">
+            <div class="main-forms__panel1">
+                <div class="main-forms__image">
+                    <img src="img/mainPage.jfif">
+                    <img src="img/lobby.jpg">
+                </div>
+            </div>
+            <div class="main-forms__panel2" id="signUP" >
+                <div class="form-display">
+                    <div class="signup-form form" method="POST">
+                        <div class="from-btm-title">
+                            <h3 class="form-btm-h1">
+                            Create Account
+                            </h3>
+                        </div>
+                        <div id="error-signup" style="display: none"></div>
+                        <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="text"
+                                id="userName"
+                                name=""
+                                placeholder="Name"
+                                required
+                            />
+                            <div class="input-phr">Name</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">Write your Name</div>
+                        </div>
+                        <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="number"
+                                pattern=".{13}"
+                                name=""
+                                id="ID_card"
+                                placeholder="ID Card Number"
+                                required
+                            />
+                            <div class="input-phr">ID Card Number</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">ID card number must be 13 characters</div>
+                        </div>
+                        <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="number"
+                                pattern=".{11}"
+                                name=""
+                                id="Contact_No"
+                                placeholder="Contact No"
+                                required
+                            />
+                            <div class="input-phr">Contact No</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">Contact Number must be at 11 characters</div>
+                        </div>
+                        <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="text"
+                                pattern=".{30}"
+                                name=""
+                                id="Address"
+                                placeholder="Address"
+                                required
+                            />
+                            <div class="input-phr">Address</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">Please enter a valid address</div>
+                        </div>
+                        <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="email"
+                                minlength="6"
+                                id="signup-email"
+                                name=""
+                                placeholder="Email"
+                                required
+                            />
+                            <div class="input-phr">Email Address</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">
+                                Write a valid email address with an '@' and a '.'
+                            </div>
+                        </div>
+                        <div class="inner-flex">
+                            <div class="input-group">
+                            <input
+                                class="input input-btm"
+                                type="Password"
+                                pattern=".{6,}"
+                                id="signup-password"
+                                name=""
+                                placeholder="New Password"
+                                required
+                            />
+                            <div class="input-phr">Password</div>
+                            <div class="input-fix">Fix</div>
+                            <div class="input-audit"></div>
+                            <div class="input-aux">Password must be at least six characters</div>
+                            </div>
+                            <div class="input-group">
+                                <input
+                                    class="input input-btm"
+                                    type="Password"
+                                    minlength="6"
+                                    name=""
+                                    id="signup-secpassword"
+                                    placeholder="Re-Enter Password"
+                                    required
+                                />
+                                <div class="input-phr">Re-Enter Password</div>
+                                <div class="input-fix">Fix</div>
+                                <div class="input-audit"></div>
+                                <div class="input-aux">Re-write your password to confirm</div>
+                            </div>
+                        </div>
+                        <div class="submit-btm">
+                            <button
+                                class="btn btn-btm btn-btm-submit"
+                                id="signup-button"
+                                type="submit"
+                                name=""
+                                required
+                            >
+                            Create Account
+                            </button>
+                        </div>
+                        <p  id='signup_Change' class="form-btm-text">
+                        Already have an account?&nbsp;<a class="form-btm-link">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="main-forms__panel3" id="signIN">
+                <div class="form-display">
+                    <div class="signin-form form">
+                        <div class="from-btm-title">
+                            <h3 class="form-btm-h1">
+                            Login to Account
+                            </h3>
+                        </div>
+                        <div id="error-login" style="display: none"></div>
+                        <div class="input-group">
+                        <input
+                            class="input input-btm"
+                            type="email"
+                            id="login-email"
+                            minlength="6"
+                            name="email"
+                            placeholder="Email"
+                            required
+                        />
+                        <div class="input-phr">Email Address</div>
+                        <div class="input-fix">Fix</div>
+                        <div class="input-audit"></div>
+                        <div class="input-aux">
+                            Write a valid email address with an '@' and a '.'
+                        </div>
+                        </div>
+                        <div class="input-group">
+                        <input
+                            class="input input-btm"
+                            id="login-password"
+                            type="Password"
+                            pattern=".{6,}"
+                            name="password"
+                            placeholder="Password"
+                            required
+                        />
+                        <div class="input-phr">Password</div>
+                        <div class="input-fix">Fix</div>
+                        <div class="input-audit"></div>
+                        <div class="input-aux">Password must be at least six characters</div>
+                        </div>
+                        <div class="submit-btm">
+                            <button
+                                class="btn btn-btm btn-btm-submit"
+                                type="submit"
+                                name=""
+                                id="login-button"
+                                placeholder="dummy"
+                                required
+                            >
+                            Login
+                            </button>
+                        </div>
+                    
+                        <p id="login_Change" class="form-btm-text" >
+                            Don't have an account?&nbsp;<a class="form-btm-link">Sign up</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+              apiKey: "AIzaSyBVsm9C0Nx1vJxJ3BbA25wfj3S1n_uiEHk",
+              authDomain: "hotelmanagementapp-d8789.firebaseapp.com",
+              databaseURL: "https://hotelmanagementapp-d8789.firebaseio.com",
+              projectId: "hotelmanagementapp-d8789",
+              storageBucket: "hotelmanagementapp-d8789.appspot.com",
+              messagingSenderId: "35003574945",
+              appId: "1:35003574945:web:f27db5461545119472dee0",
+              measurementId: "G-BVH9SRXSVZ"
+            };
+            // Initialize Firebase
+            var firebaseApp = firebase.initializeApp(firebaseConfig);
+            var dataBase = firebaseApp.firestore();
+        </script>
+        <script src="js/index.js"></script>
+    </div>
+<script type="text/javascript" src="js/index.js"></script></body>
+</html>
